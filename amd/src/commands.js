@@ -30,6 +30,38 @@ import {
 } from './common';
 import {getUnusedHash} from './options';
 
+const getTranslationHash = (translationHash) => {
+    const translationHashElement = document.createElement('span');
+    translationHashElement.dataset.translationhash = translationHash;
+    translationHashElement.setAttribute('name', 'translationhash');
+
+    return translationHashElement;
+};
+
+const insertTranslationHash = (editor, translationHash) => {
+    const translationHashElement = getTranslationHash(translationHash);
+    editor.getBody().prepend(translationHashElement);
+
+    return translationHashElement;
+};
+
+const resetTranslationHashElement = (editor, translationHashElement) => {
+    const newTranslationHash = getUnusedHash(editor);
+    const translationHash = translationHashElement?.dataset.translationhash || newTranslationHash;
+
+    const currentHashes = editor.dom.select('span[data-translationhash]');
+    const exists = currentHashes.some((hashElement) => hashElement.dataset.translationhash === translationHash);
+    currentHashes
+        .filter((hashElement) => hashElement.dataset.translationhash !== translationHash)
+        .forEach((hashElement) => editor.dom.remove(hashElement));
+
+    if (!exists) {
+        return insertTranslationHash(editor, translationHash);
+    }
+
+    return exists;
+};
+
 /**
  * Get the setup function for the buttons.
  *
@@ -80,19 +112,18 @@ export const getSetup = async() => {
             if (translationHashElement) {
                 translationHashElement.setAttribute('name', 'translationhash');
             } else {
-                translationHashElement = document.createElement('span');
-                translationHashElement.dataset.translationhash = newTranslationHash;
-                translationHashElement.setAttribute('name', 'translationhash');
-
-                editor.getBody().prepend(translationHashElement);
+                translationHashElement = insertTranslationHash(editor, newTranslationHash);
             }
         });
 
         // Add a handler to unset the content if it only contains the translation hash.
         editor.on('submit', () => {
+            resetTranslationHashElement(editor, translationHashElement);
             if (editor.getContent() === translationHashElement.outerHTML) {
                 editor.setContent('');
             }
+            // We must call save here to ensure that the most recent content is saved to the textarea.
+            editor.save();
         });
     };
 };
