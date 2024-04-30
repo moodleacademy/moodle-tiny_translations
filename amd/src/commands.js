@@ -49,6 +49,11 @@ export const getSetup = async() => {
     ]);
 
     return (editor) => {
+        // Translations editor should not add translation spans.
+        if (editor.getElement().id === 'id_substitutetext_editor') {
+            return;
+        }
+
         // Register the Icon.
         editor.ui.registry.addIcon(icon, buttonImage.html);
 
@@ -58,11 +63,6 @@ export const getSetup = async() => {
             tooltip: buttonText,
             onAction: () => handleAction(editor),
         });
-
-        if (editor.getElement().id === 'id_substitutetext_editor') {
-            // Do not add tranlation hashes to translations.
-            return;
-        }
 
         let translationHashElement;
 
