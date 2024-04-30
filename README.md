@@ -1,8 +1,8 @@
 # Translations #
 
-TODO Describe the plugin shortly here.
+This is a companion plugin for the [Content Translations](https://moodle.org/plugins/filter_translations) plugin.
 
-TODO Provide more detailed description here.
+It injects a special tag in the text that is saved to support the filter_translations plugin.
 
 ## Installing via uploaded ZIP file ##
 
