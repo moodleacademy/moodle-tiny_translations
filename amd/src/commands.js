@@ -23,7 +23,7 @@
 
 import {getButtonImage} from 'editor_tiny/utils';
 import {get_string as getString} from 'core/str';
-import {handleAction, insertTranslationHash} from './ui';
+import {handleAction, insertTranslationHash, findTranslationHashElements} from './ui';
 import {
     component,
     buttonName,
@@ -64,6 +64,7 @@ export const getSetup = async() => {
             onAction: () => handleAction(editor),
         });
 
+        let translationHash;
         let translationHashElement;
 
         // Add a handler to set up the translation hash when the content is initialised.
@@ -75,29 +76,44 @@ export const getSetup = async() => {
                 return;
             }
 
-            translationHashElement = editor.getBody().querySelector('[data-translationhash]');
+            let translationHashSpan;
 
-            if (translationHashElement) {
-                // Ensure that the hash span element is warpped in a <p> tag, with appropriate 'class' applied.
-                if (!translationHashElement.parentElement.classList.contains('translationhash')) {
+            translationHashSpan = editor.getBody().querySelector('[data-translationhash]');
+
+            if (translationHashSpan) {
+                // Ensure that the hash span element is wrapped in a <p> tag, with appropriate 'class' applied.
+                if (!translationHashSpan.parentElement.classList.contains('translationhash')) {
                     // The translation span tag is on its own.
                     // This is old syntax and we should convert it.
-                    const translationHash = translationHashElement?.dataset.translationhash;
+                    translationHash = translationHashSpan?.dataset.translationhash;
 
                     // Strip out the old translation span element.
-                    translationHashElement.remove();
+                    translationHashSpan.remove();
 
-                    // Add the translation span with a <p> tag.
+                    // Add the translation span within a <p> tag.
                     translationHashElement = insertTranslationHash(editor, translationHash);
                 }
+
+                translationHashElement = translationHashSpan.parentElement;
+                translationHash = translationHashSpan?.dataset.translationhash;
             } else {
                 // No translation span tag found, so add one.
                 translationHashElement = insertTranslationHash(editor, newTranslationHash);
+                translationHash = translationHashElement?.firstElementChild.dataset.translationhash;
             }
         });
 
         // Add a handler to unset the content if it only contains the translation hash.
         editor.on('submit', () => {
+            // Before saving, check that content has a translation span tag.
+            // If one doesn't exit:
+            //     Add back the one that was originally there, OR
+            //     Add a new translation span tag.
+            if (!findTranslationHashElements(editor, editor.getContent())) {
+                // No translation span tag found, so add one.
+                translationHashElement = insertTranslationHash(editor, translationHash);
+            }
+
             if (editor.getContent() === translationHashElement.outerHTML) {
                 editor.setContent('');
             }

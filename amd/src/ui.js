@@ -114,6 +114,20 @@ export const removeTranslationHashElements = (editor, content) => {
     return content;
 };
 
+/*
+ * Check if there is a translation span block in the content.
+ */
+export const findTranslationHashElements = (editor, content) => {
+    const alltranslationhashregex =
+        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
+
+    if (alltranslationhashregex.exec(content) !== null) {
+        return true;
+    }
+
+    return false;
+};
+
 export const handleOnPaste = (editor, args) => {
     args.content = removeTranslationHashElements(editor, args.content);
 };
