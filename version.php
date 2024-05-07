@@ -25,7 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tiny_translations';
-$plugin->release = '0.1.0';
-$plugin->version = 2023013001;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_BETA;
+$plugin->release = '1.0.0';
+$plugin->version = 2024040100;
+$plugin->requires = 2022112800; // Moodle 4.1 or newer.
+$plugin->maturity = MATURITY_STABLE;
+$plugin->dependencies = ['filter_translations' => 2024050100];
