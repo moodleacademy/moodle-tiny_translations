@@ -23,7 +23,7 @@
 
 import {getButtonImage} from 'editor_tiny/utils';
 import {get_string as getString} from 'core/str';
-import {handleAction, insertTranslationHash, findTranslationHashElements} from './ui';
+import {handleAction, insertTranslationHash, findTranslationHashElements, isEmptyContent} from './ui';
 import {
     component,
     buttonName,
@@ -114,7 +114,9 @@ export const getSetup = async() => {
                 translationHashElement = insertTranslationHash(editor, translationHash);
             }
 
-            if (editor.getContent() === translationHashElement.outerHTML) {
+            // No need for translation span tags when editor content is "empty".
+            // This is needed otherwise quiz questions will have empty/blank options.
+            if (isEmptyContent(editor, editor.getContent())) {
                 editor.setContent('');
             }
 

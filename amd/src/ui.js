@@ -128,6 +128,20 @@ export const findTranslationHashElements = (editor, content) => {
     return false;
 };
 
+/*
+ * Check if the editor content is "empty".
+ *
+ * Content is empty if it only contains a translation hash element and an empty <p> tags.
+ */
+export const isEmptyContent = (editor, content) => {
+    const regex =
+    /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>\s*<p><\/p>/;
+
+    const match = regex.test(content);
+
+    return match;
+};
+
 export const handleOnPaste = (editor, args) => {
     args.content = removeTranslationHashElements(editor, args.content);
 };
