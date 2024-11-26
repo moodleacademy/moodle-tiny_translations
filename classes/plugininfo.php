@@ -28,6 +28,13 @@ use context;
 use editor_tiny\plugin;
 use editor_tiny\plugin_with_configuration;
 
+/**
+ * Tiny Translations plugin.
+ *
+ * @package     tiny_translations
+ * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class plugininfo extends plugin implements plugin_with_configuration {
     public static function get_plugin_configuration_for_context(
         context $context,
@@ -42,6 +49,15 @@ class plugininfo extends plugin implements plugin_with_configuration {
         ];
     }
 
+    /**
+     * Whether the plugin is enabled
+     *
+     * @param context $context The context that the editor is used within
+     * @param array $options The options passed in when requesting the editor
+     * @param array $fpoptions The filepicker options passed in when requesting the editor
+     * @param editor $editor The editor instance in which the plugin is initialised
+     * @return boolean
+     */
     public static function is_enabled(
         context $context,
         array $options,
