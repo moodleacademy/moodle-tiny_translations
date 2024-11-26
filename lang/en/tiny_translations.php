@@ -26,11 +26,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['button_translate'] = 'Translate content';
-$string['menuitem_translate'] = 'Translate content';
-$string['helplinktext'] = 'Translations helper';
-$string['pluginname'] = 'Translations companion';
 $string['buttontitle'] = 'Replace content translation hash';
-$string['translations:replacehash'] = 'Replace translation hash key';
 $string['confirmation'] = 'Confirm';
 $string['confirmtext'] = 'Are you sure you want to replace the current translation hash?';
+$string['helplinktext'] = 'Translations helper';
+$string['menuitem_translate'] = 'Translate content';
+$string['pluginname'] = 'Translations companion';
 $string['privacy:metadata'] = 'Translations companion does not store any personal data';
+$string['translations:replacehash'] = 'Replace translation hash key';
