@@ -23,7 +23,9 @@
 
 import {getButtonImage} from 'editor_tiny/utils';
 import {get_string as getString} from 'core/str';
-import {handleAction, insertTranslationHash, findTranslationHashElements, isEmptyContent} from './ui';
+import {
+    handleAction, insertTranslationHash, findTranslationHashElements, removeTranslationHashElements, isEmptyContent
+} from './ui';
 import {
     component,
     buttonName,
@@ -81,21 +83,26 @@ export const getSetup = async() => {
             translationHashSpan = editor.getBody().querySelector('[data-translationhash]');
 
             if (translationHashSpan) {
+                // Get the translation hash value.
+                translationHash = translationHashSpan?.dataset.translationhash;
+
                 // Ensure that the hash span element is wrapped in a <p> tag, with appropriate 'class' applied.
                 if (!translationHashSpan.parentElement.classList.contains('translationhash')) {
-                    // The translation span tag is on its own.
-                    // This is old syntax and we should convert it.
-                    translationHash = translationHashSpan?.dataset.translationhash;
+                    // The translation span tag is on its own. This is old syntax and we should convert it.
 
                     // Strip out the old translation span element.
-                    translationHashSpan.remove();
+                    let initialcontent = editor.getContent();
+
+                    // Remove all translation span tags.
+                    initialcontent = removeTranslationHashElements(editor, initialcontent);
+
+                    editor.setContent(initialcontent);
 
                     // Add the translation span within a <p> tag.
                     translationHashElement = insertTranslationHash(editor, translationHash);
+                } else {
+                    translationHashElement = translationHashSpan.parentElement; // <p> tag enclosing the translation <span>.
                 }
-
-                translationHashElement = translationHashSpan.parentElement;
-                translationHash = translationHashSpan?.dataset.translationhash;
             } else {
                 // No translation span tag found, so add one.
                 translationHashElement = insertTranslationHash(editor, newTranslationHash);

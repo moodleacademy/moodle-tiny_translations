@@ -14,23 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace tiny_translations\privacy;
+
 /**
- * Plugin strings are defined here.
+ * Privacy API implementation for the Font case plugin.
  *
  * @package     tiny_translations
- * @category    string
- * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
+ * @category    privacy
+ * @copyright   2024 Rajneel Totaram <rajneel.totaram@moodle.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class provider implements \core_privacy\local\metadata\null_provider {
 
-defined('MOODLE_INTERNAL') || die();
-
-$string['button_translate'] = 'Translate content';
-$string['buttontitle'] = 'Replace content translation hash';
-$string['confirmation'] = 'Confirm';
-$string['confirmtext'] = 'Are you sure you want to replace the current translation hash?';
-$string['helplinktext'] = 'Translations helper';
-$string['menuitem_translate'] = 'Translate content';
-$string['pluginname'] = 'Translations companion';
-$string['privacy:metadata'] = 'Translations companion does not store any personal data';
-$string['translations:replacehash'] = 'Replace translation hash key';
+    /**
+     * Returns stringid of a text explaining that this plugin stores no personal data.
+     *
+     * @return string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

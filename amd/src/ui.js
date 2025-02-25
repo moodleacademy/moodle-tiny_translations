@@ -102,7 +102,8 @@ export const insertTranslationHash = (editor, translationHash) => {
  */
 export const removeTranslationHashElements = (editor, content) => {
     const alltranslationhashregex =
-        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
+        // eslint-disable-next-line
+        /(?:(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>|<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>)/g;
     const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
 
     // Remove the translation span tags.
@@ -135,6 +136,7 @@ export const findTranslationHashElements = (editor, content) => {
  */
 export const isEmptyContent = (editor, content) => {
     const regex =
+    // eslint-disable-next-line
     /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>\s*<p><\/p>/;
 
     const match = regex.test(content);
