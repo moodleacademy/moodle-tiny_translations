@@ -135,13 +135,25 @@ export const findTranslationHashElements = (editor, content) => {
  * Content is empty if it only contains a translation hash element and an empty <p> tags.
  */
 export const isEmptyContent = (editor, content) => {
-    const regex =
+    const translationhashregex =
     // eslint-disable-next-line
-    /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>\s*<p><\/p>/;
+    /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>\s*<p>\s*<\/p>/;
 
-    const match = regex.test(content);
+    const contentregex =
+    // eslint-disable-next-line
+    /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>\s*<p>\s*<\/p>\s*\S/;
 
-    return match;
+
+    const matchhash = translationhashregex.test(content);
+
+    if (matchhash) {
+        // Found translation span element. Check if there are additional content, too.
+        const matchcontent = contentregex.test(content);
+
+        return !matchcontent;
+    }
+
+    return matchhash;
 };
 
 export const handleOnPaste = (editor, args) => {
