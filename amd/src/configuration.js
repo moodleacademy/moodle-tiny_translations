@@ -28,7 +28,7 @@ import {handleOnPaste} from './ui';
 // eslint-disable-next-line camelcase
 const getValidElements = ({extended_valid_elements = ''}) => {
     // The span must have both attributes, otherwise TinyMCE will see it as empty, and will remove it.
-    const ignoredValue = 'span[data-translationhash]';
+    const ignoredValue = 'span[*]';
     // eslint-disable-next-line camelcase
     if (extended_valid_elements) {
         // eslint-disable-next-line camelcase
