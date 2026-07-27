@@ -36,6 +36,15 @@ use editor_tiny\plugin_with_configuration;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plugininfo extends plugin implements plugin_with_configuration {
+    /**
+     * Get the plugin configuration for a given context
+     *
+     * @param context $context The context that the editor is used within
+     * @param array $options The options passed in when requesting the editor
+     * @param array $fpoptions The filepicker options passed in when requesting the editor
+     * @param editor $editor The editor instance in which the plugin is initialised
+     * @return array
+     */
     public static function get_plugin_configuration_for_context(
         context $context,
         array $options,
